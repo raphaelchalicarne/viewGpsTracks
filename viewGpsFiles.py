@@ -13,6 +13,8 @@ import mplleaflet
 import os
 import re
 from fastkml import kml
+import gpxpy
+import gpxpy.gpx
 import xml.etree.ElementTree as ET
 
 dir = os.path.join('Vélo','OruxMaps_2019-11-18 1906-livraison-Stuart')
@@ -23,6 +25,27 @@ filename = '18-11-19-livraison-Stuart.kml'
 kml_file = os.path.join(dir,filename)
 
 # %% Functions
+
+def path_show_ext(fullpath):
+    """
+    splits a full file path into path, basename and extension
+    :param fullpath: str
+    :return: the path, the basename and the extension
+    """
+    tmp = os.path.splitext(fullpath)
+    ext = tmp[1]
+    p = tmp[0]
+    while tmp[1] != '':
+        tmp = os.path.splitext(p)
+        ext = tmp[1] + ext
+        p = tmp[0]
+
+    path = os.path.dirname(p)
+    if path == '':
+        path = '.'
+    base = os.path.basename(p)
+    return path, base, ext
+
 def llaf2array(llaf):
     """Input : long_lat_alt_filtered
     Output : numpy array with [long, lat, alt] at each line"""
@@ -37,7 +60,6 @@ def llaf2array(llaf):
 with open(kml_file, 'rt') as myfile:
     doc = myfile.read().encode('utf-8')
     
-
 # Create the KML object to store the parsed result
 k = kml.KML()
 
