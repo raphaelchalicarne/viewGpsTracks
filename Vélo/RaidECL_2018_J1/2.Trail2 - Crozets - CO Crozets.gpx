@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx version="1.1" creator="Visorando" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+ <metadata>
+  <link href="https://www.visorando.com">
+   <text>https://www.visorando.com</text>
+  </link>
+ </metadata>
+ <trk>
+  <trkseg>
+   <trkpt lat="46.462237" lon="5.791007">
+    <ele>864</ele>
+   </trkpt>
+   <trkpt lat="46.462020" lon="5.790850">
+    <ele>866</ele>
+   </trkpt>
+   <trkpt lat="46.461580" lon="5.792140">
+    <ele>854</ele>
+   </trkpt>
+   <trkpt lat="46.461350" lon="5.792670">
+    <ele>849</ele>
+   </trkpt>
+   <trkpt lat="46.461020" lon="5.793320">
+    <ele>842</ele>
+   </trkpt>
+   <trkpt lat="46.460900" lon="5.793440">
+    <ele>840</ele>
+   </trkpt>
+   <trkpt lat="46.460690" lon="5.793580">
+    <ele>839</ele>
+   </trkpt>
+   <trkpt lat="46.460693" lon="5.793582">
+    <ele>839</ele>
+   </trkpt>
+   <trkpt lat="46.460690" lon="5.793580">
+    <ele>839</ele>
+   </trkpt>
+   <trkpt lat="46.460500" lon="5.793650">
+    <ele>837</ele>
+   </trkpt>
+   <trkpt lat="46.460350" lon="5.793660">
+    <ele>837</ele>
+   </trkpt>
+   <trkpt lat="46.460010" lon="5.793630">
+    <ele>837</ele>
+   </trkpt>
+   <trkpt lat="46.459750" lon="5.793680">
+    <ele>836</ele>
+   </trkpt>
+   <trkpt lat="46.459510" lon="5.793770">
+    <ele>835</ele>
+   </trkpt>
+   <trkpt lat="46.459400" lon="5.793830">
+    <ele>834</ele>
+   </trkpt>
+   <trkpt lat="46.459340" lon="5.793900">
+    <ele>832</ele>
+   </trkpt>
+   <trkpt lat="46.458970" lon="5.794070">
+    <ele>829</ele>
+   </trkpt>
+   <trkpt lat="46.458800" lon="5.794090">
+    <ele>828</ele>
+   </trkpt>
+   <trkpt lat="46.458630" lon="5.794000">
+    <ele>829</ele>
+   </trkpt>
+   <trkpt lat="46.458430" lon="5.793820">
+    <ele>830</ele>
+   </trkpt>
+   <trkpt lat="46.458260" lon="5.793650">
+    <ele>832</ele>
+   </trkpt>
+   <trkpt lat="46.458120" lon="5.793470">
+    <ele>835</ele>
+   </trkpt>
+   <trkpt lat="46.457970" lon="5.793250">
+    <ele>839</ele>
+   </trkpt>
+   <trkpt lat="46.457840" lon="5.793130">
+    <ele>842</ele>
+   </trkpt>
+   <trkpt lat="46.457690" lon="5.793100">
+    <ele>843</ele>
+   </trkpt>
+   <trkpt lat="46.457530" lon="5.793170">
+    <ele>842</ele>
+   </trkpt>
+   <trkpt lat="46.457180" lon="5.793550">
+    <ele>835</ele>
+   </trkpt>
+   <trkpt lat="46.456840" lon="5.793840">
+    <ele>830</ele>
+   </trkpt>
+   <trkpt lat="46.456390" lon="5.794190">
+    <ele>828</ele>
+   </trkpt>
+   <trkpt lat="46.455800" lon="5.794680">
+    <ele>827</ele>
+   </trkpt>
+   <trkpt lat="46.455300" lon="5.795100">
+    <ele>827</ele>
+   </trkpt>
+   <trkpt lat="46.454790" lon="5.795560">
+    <ele>826</ele>
+   </trkpt>
+   <trkpt lat="46.454460" lon="5.795790">
+    <ele>826</ele>
+   </trkpt>
+   <trkpt lat="46.454240" lon="5.795900">
+    <ele>825</ele>
+   </trkpt>
+   <trkpt lat="46.454010" lon="5.795980">
+    <ele>825</ele>
+   </trkpt>
+   <trkpt lat="46.453780" lon="5.796040">
+    <ele>825</ele>
+   </trkpt>
+   <trkpt lat="46.453260" lon="5.796080">
+    <ele>828</ele>
+   </trkpt>
+   <trkpt lat="46.453060" lon="5.796090">
+    <ele>829</ele>
+   </trkpt>
+   <trkpt lat="46.452860" lon="5.796080">
+    <ele>832</ele>
+   </trkpt>
+   <trkpt lat="46.452790" lon="5.796070">
+    <ele>833</ele>
+   </trkpt>
+   <trkpt lat="46.452792" lon="5.796050">
+    <ele>833</ele>
+   </trkpt>
+  </trkseg>
+ </trk></gpx>
