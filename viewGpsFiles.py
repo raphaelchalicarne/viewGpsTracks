@@ -12,7 +12,6 @@ import numpy as np
 import mplleaflet
 import os
 import re
-from fastkml import kml
 import gpxpy
 import gpxpy.gpx
 import xml.etree.ElementTree as ET
@@ -53,25 +52,6 @@ def llaf2array(llaf):
     splitted_array = np.array(splitted_array, dtype=str)
     array2float = splitted_array.astype(np.float)
     return array2float
-
-# %% Fast kml
-
-#Read file into string and convert to UTF-8 (Python3 style)
-with open(kml_file, 'rt') as myfile:
-    doc = myfile.read().encode('utf-8')
-    
-# Create the KML object to store the parsed result
-k = kml.KML()
-
-# Read in the KML string
-k.from_string(doc)
-
-# Check that the number of features is correct
-# This corresponds to the single ``Document``
-features = list(k.features())
-
-f2 = list(features[0].features())
-f3_0 = list(f2[0].features())
 
 # %% Using ElementTree
 
