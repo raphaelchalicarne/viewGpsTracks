@@ -15,13 +15,15 @@ import re
 import gpxpy
 import gpxpy.gpx
 import xml.etree.ElementTree as ET
+import lxml
+from pykml import parser
 
 #dir = os.path.join('Vélo','OruxMaps_2019-11-18 1906-livraison-Stuart')
 #filename = '18-11-19-livraison-Stuart.kml'
-#dir = os.path.join('Vélo','OruxMaps_2019-11-20 1801-Centrale-Maison')
-#filename = '20-11-19-Centrale-maison.kml'
-dir = os.path.join('Vélo','RaidECL_2018_J1')
-filename = 'EnsembleJ1.gpx'
+dir = os.path.join('Vélo','OruxMaps_2019-11-20 1801-Centrale-Maison')
+filename = '20-11-19-Centrale-maison.kml'
+#dir = os.path.join('Vélo','RaidECL_2018_J1')
+#filename = 'EnsembleJ1.gpx'
 
 file = os.path.join(dir,filename)
 
@@ -55,6 +57,29 @@ def llaf2array(llaf):
     array2float = splitted_array.astype(np.float)
     return array2float
 
+## %% Using ElementTree (kml files)
+#if path_show_ext(file)[2] == '.kml':
+#    tree = ET.parse(file)
+#    
+#    root = tree.getroot()
+#    tag_link = root.tag
+#    # We delete every character that comes after '{' in the tag link.
+#    link = re.sub(r'}.*$', "", tag_link)
+#    
+#    lineStrings = tree.findall('.//' + link + '}LineString')
+#    
+#    for attributes in lineStrings:
+#        for subAttribute in attributes:
+#            if subAttribute.tag == link + '}coordinates':
+#                raw_long_lat_alt = subAttribute.text
+#    
+#    # We split the string into an array of lines
+#    long_lat_alt = raw_long_lat_alt.splitlines()
+#    # We remove the empty lines (containing no digits)
+#    long_lat_alt_filtered = [line for line in long_lat_alt if re.search(r'\d+',line)]
+#    # We convert it into an array where each line is [long, lat, alt].
+#    coordinates = llaf2array(long_lat_alt_filtered)
+
 # %% Using ElementTree (kml files)
 if path_show_ext(file)[2] == '.kml':
     tree = ET.parse(file)
@@ -64,19 +89,24 @@ if path_show_ext(file)[2] == '.kml':
     # We delete every character that comes after '{' in the tag link.
     link = re.sub(r'}.*$', "", tag_link)
     
-    lineStrings = tree.findall('.//' + link + '}LineString')
+    Folders = tree.findall('.//' + link + '}Folder')
     
-    for attributes in lineStrings:
-        for subAttribute in attributes:
-            if subAttribute.tag == link + '}coordinates':
-                raw_long_lat_alt = subAttribute.text
+    lastName = ''
     
-    # We split the string into an array of lines
-    long_lat_alt = raw_long_lat_alt.splitlines()
-    # We remove the empty lines (containing no digits)
-    long_lat_alt_filtered = [line for line in long_lat_alt if re.search(r'\d+',line)]
-    # We convert it into an array where each line is [long, lat, alt].
-    coordinates = llaf2array(long_lat_alt_filtered)
+    for attributes in Folders:
+        #print('Attributes : ', attributes.tag)
+        for subAttributes in attributes:
+            #print(subAttributes.tag, subAttributes.text)
+            if (subAttributes.tag == link + '}name'):
+                lastName = subAttributes.text
+            if (subAttributes.tag == link + '}Placemark') and (lastName == 'Tracks'):
+                #On est dans le Placemark correspondant à 'Tracks'
+                print('LASTNAME', lastName)
+                for subSubAttributes in subAttributes:
+                    #print(subSubAttributes.tag)
+                    if (subSubAttributes.tag == '{http://www.google.com/kml/ext/2.2}Track'):
+                        for sssubAttributes in subSubAttributes:
+                            print(sssubAttributes.text)
 
 # %% Using gpxpy (gpx files)
 if path_show_ext(file)[2] == '.gpx':
