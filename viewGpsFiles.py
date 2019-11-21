@@ -15,8 +15,12 @@ import re
 from fastkml import kml
 import xml.etree.ElementTree as ET
 
-dir = os.path.join('Vélo','OruxMaps_2019-11-20 1801-Centrale-Maison')
-kml_file = os.path.join(dir,'20-11-19-Centrale-maison.kml')
+dir = os.path.join('Vélo','OruxMaps_2019-11-18 1906-livraison-Stuart')
+filename = '18-11-19-livraison-Stuart.kml'
+#dir = os.path.join('Vélo','OruxMaps_2019-11-20 1801-Centrale-Maison')
+#filename = '20-11-19-Centrale-maison.kml'
+
+kml_file = os.path.join(dir,filename)
 
 # %% Functions
 def llaf2array(llaf):
@@ -69,5 +73,12 @@ long_lat_alt = raw_long_lat_alt.splitlines()
 long_lat_alt_filtered = [line for line in long_lat_alt if re.search(r'\d+',line)]
 # We convert it into an array where each line is [long, lat, alt].
 coordinates = llaf2array(long_lat_alt_filtered)
+
+longitude = coordinates[:,0]
+latitude = coordinates[:,1]
+altitude = coordinates[:,2]
+
+plt.plot(longitude, latitude, color = 'r', linewidth=4)
+mplleaflet.show()
 
 
