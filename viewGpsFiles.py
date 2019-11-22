@@ -57,29 +57,6 @@ def llaf2array(llaf):
     array2float = splitted_array.astype(np.float)
     return array2float
 
-## %% Using ElementTree (kml files)
-#if path_show_ext(file)[2] == '.kml':
-#    tree = ET.parse(file)
-#    
-#    root = tree.getroot()
-#    tag_link = root.tag
-#    # We delete every character that comes after '{' in the tag link.
-#    link = re.sub(r'}.*$', "", tag_link)
-#    
-#    lineStrings = tree.findall('.//' + link + '}LineString')
-#    
-#    for attributes in lineStrings:
-#        for subAttribute in attributes:
-#            if subAttribute.tag == link + '}coordinates':
-#                raw_long_lat_alt = subAttribute.text
-#    
-#    # We split the string into an array of lines
-#    long_lat_alt = raw_long_lat_alt.splitlines()
-#    # We remove the empty lines (containing no digits)
-#    long_lat_alt_filtered = [line for line in long_lat_alt if re.search(r'\d+',line)]
-#    # We convert it into an array where each line is [long, lat, alt].
-#    coordinates = llaf2array(long_lat_alt_filtered)
-
 # %% Using ElementTree (kml files)
 if path_show_ext(file)[2] == '.kml':
     tree = ET.parse(file)
@@ -92,6 +69,8 @@ if path_show_ext(file)[2] == '.kml':
     Folders = tree.findall('.//' + link + '}Folder')
     
     lastName = ''
+    timestamp = []
+    long_lat_alt = []
     
     for attributes in Folders:
         #print('Attributes : ', attributes.tag)
@@ -106,7 +85,13 @@ if path_show_ext(file)[2] == '.kml':
                     #print(subSubAttributes.tag)
                     if (subSubAttributes.tag == '{http://www.google.com/kml/ext/2.2}Track'):
                         for sssubAttributes in subSubAttributes:
-                            print(sssubAttributes.text)
+                            if sssubAttributes.tag == '{http://earth.google.com/kml/2.2}when':
+                                timestamp.append(sssubAttributes.text)
+                            elif sssubAttributes.tag == '{http://www.google.com/kml/ext/2.2}coord':
+                                long_lat_alt.append(sssubAttributes.text)
+    long_lat_alt = [line.split(' ') for line in long_lat_alt]
+    splitted_array = np.array(long_lat_alt, dtype=str)
+    coordinates = splitted_array.astype(np.float)
 
 # %% Using gpxpy (gpx files)
 if path_show_ext(file)[2] == '.gpx':
