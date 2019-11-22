@@ -8,6 +8,8 @@ Created on Wed Nov 20 19:08:42 2019
 # %% IMPORTS
 
 import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
+from matplotlib.colors import ListedColormap, BoundaryNorm
 import numpy as np
 import mplleaflet
 import os
@@ -15,8 +17,8 @@ import re
 import gpxpy
 import gpxpy.gpx
 import xml.etree.ElementTree as ET
-import lxml
-from pykml import parser
+from geopy import distance
+from datetime import datetime
 
 #dir = os.path.join('Vélo','OruxMaps_2019-11-18 1906-livraison-Stuart')
 #filename = '18-11-19-livraison-Stuart.kml'
@@ -57,6 +59,22 @@ def llaf2array(llaf):
     array2float = splitted_array.astype(np.float)
     return array2float
 
+def calculateSpeed(coordinates, timestamp):
+    n = len(timestamp)
+    speed_ms = np.zeros(n-1)
+    
+    for i in range(1,n):
+        point0 = (coordinates[i-1,0], coordinates[i-1,1])
+        point1 = (coordinates[i,0], coordinates[i,1])
+        time0 = datetime.strptime(timestamp[i-1], '%Y-%m-%dT%H:%M:%S%z')
+        time1 = datetime.strptime(timestamp[i], '%Y-%m-%dT%H:%M:%S%z')
+        delta_t = (time1 - time0).total_seconds()
+        dist = distance.distance(point0, point1).m
+        speed_delta = dist/delta_t
+        speed_ms[i-1] = speed_delta
+        
+    return speed_ms
+
 # %% Using ElementTree (kml files)
 if path_show_ext(file)[2] == '.kml':
     tree = ET.parse(file)
@@ -80,7 +98,6 @@ if path_show_ext(file)[2] == '.kml':
                 lastName = subAttributes.text
             if (subAttributes.tag == link + '}Placemark') and (lastName == 'Tracks'):
                 #On est dans le Placemark correspondant à 'Tracks'
-                print('LASTNAME', lastName)
                 for subSubAttributes in subAttributes:
                     #print(subSubAttributes.tag)
                     if (subSubAttributes.tag == '{http://www.google.com/kml/ext/2.2}Track'):
@@ -114,5 +131,37 @@ longitude = coordinates[:,0]
 latitude = coordinates[:,1]
 altitude = coordinates[:,2]
 
-plt.plot(longitude, latitude, color = 'r', linewidth=4)
-mplleaflet.show()
+if len(timestamp) > 0:
+    speed_kmh = 3.6*np.array(calculateSpeed(coordinates, timestamp))
+
+# Create a set of line segments so that we can color them individually
+# This creates the points as a N x 1 x 2 array so that we can stack points
+# together easily to get the segments. The segments array for line collection
+# needs to be (numlines) x (points per line) x 2 (for x and y)
+points = np.array([longitude, latitude]).T.reshape(-1, 1, 2)
+segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+fig, axs = plt.subplots(2, 1, sharex=True, sharey=True)
+
+# Create a continuous norm to map from data points to colors
+norm = plt.Normalize(0, speed_kmh.max())
+lc = LineCollection(segments, cmap='rainbow', norm=norm)
+# Set the values used for colormapping
+lc.set_array(speed_kmh)
+lc.set_linewidth(2)
+line = axs[0].add_collection(lc)
+fig.colorbar(line, ax=axs[0])
+
+#plt.plot(longitude, latitude, color='rainbow', linewidth=4)
+#mplleaflet.show()
+plt.show()
+
+
+
+
+
+
+
+
+
+
