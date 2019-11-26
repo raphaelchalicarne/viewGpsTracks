@@ -20,6 +20,11 @@ import xml.etree.ElementTree as ET
 from geopy import distance
 from datetime import datetime
 
+import plotly 
+import plotly.graph_objs as go 
+import plotly.io as pio
+pio.renderers.default = "browser"
+
 #dir = os.path.join('Vélo','OruxMaps_2019-11-18 1906-livraison-Stuart')
 #filename = '18-11-19-livraison-Stuart.kml'
 dir = os.path.join('Vélo','OruxMaps_2019-11-20 1801-Centrale-Maison')
@@ -131,6 +136,53 @@ longitude = coordinates[:,0]
 latitude = coordinates[:,1]
 altitude = coordinates[:,2]
 
+plt.plot(longitude, latitude, color='r', linewidth=4)
+mplleaflet.show()
+
+# %% Showing track with plotly
+longitude = coordinates[:,0]
+latitude = coordinates[:,1]
+altitude = coordinates[:,2]
+
+track = go.Scattermapbox(
+                  mode = "markers+lines",
+                  lon = longitude,
+                  lat = latitude,
+                  marker = {'size': 10})
+
+layout_track = go.Layout(title='Mon trajet à vélo', 
+                              xaxis=dict(title='Longitude',), 
+                              yaxis=dict(title='Latitude',)) 
+#plotly.offline.plot(go.Figure(data=track , layout=layout_track), 
+#                   filename="temp.html", auto_open=True)
+go.Figure(data=track , layout=layout_track).show(renderer="browser")
+
+# %%
+fig = go.Figure(go.Scattermapbox(
+    mode = "markers+lines",
+    lon = [10, 20, 30],
+    lat = [10, 20,30],
+    marker = {'size': 10}))
+
+fig.add_trace(go.Scattermapbox(
+    mode = "markers+lines",
+    lon = [-50, -60,40],
+    lat = [30, 10, -20],
+    marker = {'size': 10}))
+
+fig.update_layout(
+    margin ={'l':0,'t':0,'b':0,'r':0},
+    mapbox = {
+        'center': {'lon': 10, 'lat': 10},
+        'style': "stamen-terrain",
+        'center': {'lon': -20, 'lat': -20},
+        'zoom': 1})
+
+fig.show()
+
+
+# %% Show speed if it exists
+
 if len(timestamp) > 0:
     speed_kmh = 3.6*np.array(calculateSpeed(coordinates, timestamp))
 
@@ -153,8 +205,7 @@ line = axs[0].add_collection(lc)
 fig.colorbar(line, ax=axs[0])
 
 #plt.plot(longitude, latitude, color='rainbow', linewidth=4)
-#mplleaflet.show()
-plt.show()
+#plt.show()
 
 
 
